@@ -1,0 +1,63 @@
+<aura:component controller="MyContactListController" implements="flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="Account" type="Account" />
+    <aura:attribute name="Contacts" type="List" />
+    <aura:attribute name="Columns" type="List" />
+    <aura:attribute name="editForm" type="boolean" default="false" />
+    <aura:handler name="init" value="{!this}" action="{!c.myAction}" />
+    <force:recordData aura:id="accountRecord"
+                      recordId="{!v.recordId}"
+                      targetFields="{!v.Account}"
+                      layoutType="FULL"
+                      />
+    <div class="slds-box slds-text-heading_small">
+        <lightning:card iconName="standard:contact" title="{! 'Contact List for ' + v.Account.Name}"/>
+        <!-- Contact list goes here -->
+        <!-- Display contacts one by one -->
+        <div class="slds-docked_container_align-left">
+            <div class="slds-scrollable">
+                <div class="slds-docked-modal_composer slds-grid slds-grid_vertical-align-left slds-grid_align-left slds-is-open" role="dialog" aria-labelledby="dialog-heading-id-1" aria-describedby="dialog-content-id-1">
+                    
+                    <aura:if isTrue="{!not(empty(v.Contacts))}">
+                        <div class="slds-grid slds-wrap">
+                            <aura:iteration items="{!v.Contacts}" var="contact">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning:card title="{!contact.Name}" >
+                                        <div class="slds-grid slds-gutters">
+                                            <div class="slds-col slds-text-body_medium">
+                                                <span>
+                                                    <div class="container-fluid">
+                                                        <div class="row">
+                                                            <div class="col-md-06">
+                                                                <div class="slds-box">
+                                                                    <div data-id="{!contact.Id}"  class="slds-box">
+                                                                        <p class="slds-p-horizontal_small">
+                                                                            First Name: {!contact.Name}
+                                                                        </p>
+                                                                        <p class="slds-p-horizontal_small">
+                                                                            Phone: {!contact.Phone}
+                                                                        </p>
+                                                                        <p class="slds-p-horizontal_small">
+                                                                            Email: {!contact.Email}
+                                                                        </p>
+                                                                        <div class="slds-clearfix">
+                                                                            <lightning:button variant="brand" label="Edit" class="slds-float_right slds-m-left_x-small"/>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </lightning:card>
+                                </div>
+                            </aura:iteration>
+                        </div>
+                    </aura:if>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>
